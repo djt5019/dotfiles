@@ -8,7 +8,7 @@ ZSH=$HOME/.oh-my-zsh
 # ZSH_THEME="robbyrussell"
 
 export EDITOR=vim
-
+export GOPATH=/usr/bin/go
 # Example aliases
  alias zshconfig="vim ~/.zshrc"
  alias ohmyzsh="vim ~/.oh-my-zsh"
@@ -37,109 +37,78 @@ source $ZSH/oh-my-zsh.sh
 
 VIRTUAL_ENV_DISABLE_PROMPT=0
 
-alias sublime='open -a "Sublime Text 2"'
 alias kd='knife dwim'
-#alias ls='ls -alt --color=auto'
-
-function tunnel_to_vagrant_mongo(){
-    pushd . &> /dev/null
-    cd ~/infrastructure_services
-    vagrant ssh evo
-    popd &> /dev/null
+alias kp='knife -c ~/.chef_PROD/knife.rb'
+alias ack='~/bin/ack'
+ 
+function knifeprod(){
+  knife "$@" -c ~/.chef_PROD/knife.rb
 }
 
-function boot_vagrant() {
-    pushd . &> /dev/null
-    cd ~/infrastructure_services
-    vagrant up
-    vagrant status
-    popd &> /dev/null
+function kp_search(){
+  knife search node "$@" -c ~/.chef_PROD/knife.rb
 }
 
-function stop_vagrant(){
-    pushd . &> /dev/null
-    cd ~/infrastructure_services
-    vagrant halt
-    vagrant status
-    popd &> /dev/null
-}
-
-function search_evo(){
-    echo  "EvO Sources"
-    echo "------------"
-    find ~/evo/evo -name "*.py" | xargs grep -inE "$1"
-    echo
-    echo  "EvO Tests"
-    echo "----------"
-
-    find ~/evo/tests -name "*.py" | xargs grep -inE "$1"
-}
+alias kp='knifeprod'
+alias kps='kp_search'
 
 function parse_git_branch() {
-  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
-}
-
-function parse_venv(){
-    if [[ -n "$VIRTUAL_ENV" ]]; then
-        basename $VIRTUAL_ENV
-    fi
-}
-
-function display_branch_and_env(){
-    local DISP="$(parse_venv)|$(parse_git_branch)"
-
-    python -c "
-env, repo = '$DISP'.split('|')
-if not env and not repo: exit()
-d = {'begin': '%{$fg_bold[yellow]%}', 'end': '%{$reset_color%}'}
-if not env: env = '{begin}no-venv{end}'.format(**d)
-if not repo: repo = '{begin}no-repo{end}'.format(**d)
-
-print '[{env}|{repo}]'.format(env=env, repo=repo)
-"
-}
-
-function elasticsearch_health(){
-local report
-local health
-local name
-for i in {1..3}
-do
-    report=$(curl "s-search$i:9200/_cluster/health?pretty=true" --silent )
-    health=$(echo $report | grep status | sed 's|.*: \"\(.*\)\",|\1|')
-    name=$(echo $report | grep cluster_name | sed 's|.*: \"\(.*\)\",|\1|')
-    echo "s-search$i: \"$name\" - $health"
-done
+   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
 }
 
 function precmd(){
     TEMP_PROMPT="
-[%{$fg_bold[green]%}%n@%m%{$reset_color%}][%{$fg[yellow]%}%~%{$reset_color%}]
-$(display_branch_and_env)~> "
-}
-
-function uniq_search_evo(){
-    echo '------------'
-    echo  "EvO Sources"
-    echo "------------"
-
-    find ~/evo/evo -name "*.py" | xargs grep user | python -c "for m in __import__('sys').stdin: print m.split(':')[0]" | uniq
-
-    echo '\n-----------'
-    echo  "EvO Tests"
-    echo "----------"
-    find ~/evo/tests  -name "*.py" | xargs grep user | python -c "for m in __import__('sys').stdin: print m.split(':')[0]" | uniq
+[%{$fg_bold[green]%}%n@%m%{$reset_color%}][%{$fg[yellow]%}%~%{$reset_color%}]<$(parse_git_branch)>
+~> "
 }
 
 PROMPT='$TEMP_PROMPT'
 
 # Customize to your needs...
-export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/usr/local/munki:/opt/local/bin:/opt/local/sbin:/Users/dant/mongo/bin:$PATH
+export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/usr/local/munki:/opt/local/bin:/opt/local/sbin:/Users/dant/mongo/bin/:/Users/dant/redis/src/:$PATH
 
 # MacPorts Installer addition on 2012-06-13_at_11:48:27: adding an appropriate PATH variable for use with MacPorts.
 export PATH=/opt/local/bin:/opt/local/sbin:~/mongo/bin:$PATH
 
+# Ad pg_prove
+PATH=/opt/local/libexec/perl5.12/sitebin:$PATH
+
+# Add RVM Crap
+PATH=$HOME/.rvm/gems/ruby-1.9.3-p448/bin:$PATH # Add RVM to PATH for scripting
+
 bindkey '^r' history-incremental-pattern-search-backward
 # Finished adapting your PATH environment variable for use with MacPorts.
 
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+rvm use ruby-1.9.3 > /dev/null
+
+unsetopt correct
+unsetopt correct_all
+
+export FPATH="$FPATH:/opt/local/share/zsh/site-functions/"
+if [ -f /opt/local/etc/profile.d/autojump.zsh ]; then
+    . /opt/local/etc/profile.d/autojump.zsh
+fi
+
+_rake_does_task_list_need_generating () {
+  if [ ! -f .rake_tasks ]; then return 0;
+  else
+    accurate=$(stat -f%m .rake_tasks)
+    changed=$(stat -f%m Rakefile)
+    return $(expr $accurate '>=' $changed)
+  fi
+}
+
+_rake () {
+  if [ -f Rakefile ]; then
+    if _rake_does_task_list_need_generating; then
+      echo "\nGenerating .rake_tasks..." > /dev/stderr
+      rake --silent --tasks | cut -d " " -f 2 > .rake_tasks
+    fi
+    compadd `cat .rake_tasks`
+  fi
+}
+
+compdef _rake rake
+
+alias devpi-ctl='/Users/dant/.devpi/bin/devpi-ctl'
+plugins=(zsh-syntax-highlighting)
