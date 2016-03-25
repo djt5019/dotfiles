@@ -15,15 +15,14 @@
 
 [core]
     editor = vim
-    pager = less -r
-    excludesfile = ~/.gitignore
+    pager = less
+    excludesfile = /Users/dtracy/.gitignore
 
 [push]
     default = tracking
 
 [merge]
     log = true
-    ff = false
 
 [color]
     ui = auto
