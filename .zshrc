@@ -5,7 +5,7 @@ export CPPFLAGS='-L/usr/local/lib -I/usr/local/include'
 export GOPATH="$HOME/go"
 export GOBIN="$HOME/go/bin"
 
-plugins=(git zsh-syntax-highlighting vagrant sublime golang docker)
+plugins=(git zsh-syntax-highlighting vagrant sublime golang docker docker-compose brew brew-cask)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -102,4 +102,9 @@ export PATH="/opt/git-plugins:$PATH"
 
 [ -f /Users/dant/.travis/travis.sh ] && source /Users/dant/.travis/travis.sh
 
-$(boot2docker shellinit 2> /dev/null)
+########################
+# Local Customizations #
+########################
+
+test -f "${HOME}/.zshrc.local" && source "${HOME}/.zshrc.local"
+
