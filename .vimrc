@@ -1,5 +1,3 @@
-execute pathogen#infect()
-call pathogen#helptags()
 filetype plugin indent on
 
 runtime! debian.vim
@@ -31,3 +29,5 @@ endif
 
 autocmd FileType python set tabstop=4|set shiftwidth=2|set expandtab
 autocmd FileType ruby set tabstop=2|set shiftwidth=2|set expandtab
+autocmd BufWritePre * :%s/\s\+$//e
+
