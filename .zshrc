@@ -5,7 +5,7 @@ export CPPFLAGS='-L/usr/local/lib -I/usr/local/include'
 export GOPATH="$HOME/go"
 export GOBIN="$HOME/go/bin"
 
-plugins=(git zsh-syntax-highlighting vagrant sublime golang docker docker-compose brew brew-cask)
+plugins=(git zsh-syntax-highlighting vagrant golang docker docker-compose brew brew-cask)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -26,19 +26,10 @@ __git_files () {
 
 alias 'be'='chef exec'
 alias 'dater'='date -r "$(date +%s)" +"%a, %b %d %Y %T %z"'
-alias 'dockergeddon'='docker ps -aq | xargs docker kill ; docker ps -aq | xargs docker rm -f'
 
 ####################
 # Helper Functions #
 ####################
-
-function kp (){
-  knife $* -c ~/.chef_PROD/knife.rb
-}
-
-function kps (){
-  knife search node $* -c ~/.chef_PROD/knife.rb
-}
 
 function parse_git_branch() {
   local branch="$(git branch 2> /dev/null | awk '/\* / {print $2}')"
@@ -53,14 +44,23 @@ function prune_branches() {
   git branch --merged | egrep -v '\*|master' | xargs git branch -D
 }
 
-function unfleet () {
-  local nodes="$(fleetctl --endpoint $1 list-unit-files | grep "$2" | awk '{print $1}' | uniq)"
-  echo nodes | xargs fleetctl --endpoint $1 stop
-  echo nodes | xargs fleetctl --endpoint $1 destroy
-}
-
 function docker_port () {
   echo "$(docker-compose port $1 $2 | awk -F: '{print $2}')"
+}
+
+function uuidv4 () {
+  echo -n $(uuidgen | tr 'A-Z' 'a-z')
+}
+
+function size () {
+  du -k "$@" | sort -n | awk '
+    function human(x) {
+        s="kMGTEPYZ";
+        while (x>=1000 && length(s)>1)
+            {x/=1024; s=substr(s,2)}
+        return int(x+0.5) substr(s,1,1)
+    }
+    {gsub(/^[0-9]+/, human($1)); print}'
 }
 
 #############
@@ -81,7 +81,7 @@ export FPATH="$FPATH:/opt/local/share/zsh/site-functions/"
 # Path Manipulation  #
 ######################
 
-export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:$HOME/go/bin
+export PATH=$HOME/.cargo/bin:/usr/local/opt/:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:$HOME/go/bin
 
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
@@ -102,9 +102,15 @@ export PATH="/opt/git-plugins:$PATH"
 
 [ -f /Users/dant/.travis/travis.sh ] && source /Users/dant/.travis/travis.sh
 
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/usr/local/Caskroom/google-cloud-sdk/path.zsh.inc' ]; then source '/usr/local/Caskroom/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/usr/local/Caskroom/google-cloud-sdk/completion.zsh.inc' ]; then source '/usr/local/Caskroom/google-cloud-sdk/completion.zsh.inc'; fi
+
+
 ########################
 # Local Customizations #
 ########################
 
 test -f "${HOME}/.zshrc.local" && source "${HOME}/.zshrc.local"
-
