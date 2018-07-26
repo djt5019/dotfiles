@@ -1,7 +1,7 @@
 [user]
-	name = Dan Tracy
-	email = djt5019@gmail.com
-	#signingkey = 758F8A36
+    name = Dan Tracy
+    email = dtracy@dramafever.com
+    signingkey = 62FD02B77DF20DD1
 
 [diff]
     mnemonicprefix = true
@@ -17,7 +17,7 @@
 [core]
     editor = vim
     pager = less
-    excludesfile = /Users/dtracy/.gitignore
+	excludesfile = /Users/dtracy/.gitignore
 
 [push]
     default = tracking
@@ -48,7 +48,20 @@
     untracked = white
 
 [commit]
-	#gpgsign = true
+    gpgsign = true
 
 [tag]
-	#gpgsign = true
+    gpgsign = true
+
+[gpg]
+    program = /usr/local/bin/gpg
+
+[pager]
+    status = false
+    branch = false
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
