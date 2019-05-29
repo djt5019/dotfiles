@@ -1,0 +1,12 @@
+// SublimeLinter Settings - User
+{
+    "linters": {
+        "flake8": {
+
+        }
+    },
+    "paths": {
+        "osx": "/Users/dtracy/.pyenv/shims/"
+    }
+}
+

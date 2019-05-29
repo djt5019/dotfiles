@@ -1,0 +1,8 @@
+emacs modelines
+terraform syntax
+dockerfile  syntax
+json reindent
+nginx
+package  control
+sublimelinter + flake8
+theme  menu switcher
