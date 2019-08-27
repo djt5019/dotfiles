@@ -4,8 +4,9 @@ export EDITOR=vim
 export CPPFLAGS='-L/usr/local/lib -I/usr/local/include'
 export GOPATH="$HOME/go"
 export GOBIN="$HOME/go/bin"
+export GOENV_ROOT="${HOME}/.goenv"
 
-plugins=(git zsh-syntax-highlighting vagrant golang docker docker-compose brew brew-cask)
+plugins=(git golang docker docker-compose brew terraform)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -81,7 +82,7 @@ export FPATH="$FPATH:/opt/local/share/zsh/site-functions/"
 # Path Manipulation  #
 ######################
 
-export PATH=$HOME/.cargo/bin:/usr/local/opt/:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:$HOME/go/bin
+export PATH=$HOME/.cargo/bin:/usr/local/opt/:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
 
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
@@ -92,6 +93,9 @@ eval "$(pyenv init -)"
 
 export PATH="/opt/chefdk/bin:$PATH"
 export PATH="/opt/git-plugins:$PATH"
+
+export PATH="${HOME}/.goenv/bin:$PATH"
+eval "$(goenv init -)"
 
 
 #######################
