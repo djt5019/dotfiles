@@ -59,3 +59,5 @@
 [pager]
     status = false
     branch = false
+[pull]
+	ff = only
