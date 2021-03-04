@@ -2,7 +2,10 @@
 	"added_words":
 	[
 		"deserialize",
-		"Braintree"
+		"Braintree",
+		"Terraform",
+		"internet",
+		"sportsbook"
 	],
 	"close_windows_when_empty": false,
 	"color_scheme": "Packages/Color Scheme - Default/Monokai.sublime-color-scheme",
@@ -57,14 +60,21 @@
 		"reports",
 		"share",
 		".tox",
-		"__pycache__"
+		"__pycache__",
+		".terraform"
 	],
 	"font_face": "Inconsolata",
-	"font_size": 17,
+	"font_size": 22,
 	"ignored_packages":
 	[
 		"RestructuredText",
 		"Vintage"
+	],
+	"ignored_words":
+	[
+		"cryptocurrencies",
+		"cryptocurrency",
+		"provisioners"
 	],
 	"rulers":
 	[
@@ -78,4 +88,3 @@
 	"trim_trailing_white_space_on_save": true,
 	"word_wrap": false
 }
-
