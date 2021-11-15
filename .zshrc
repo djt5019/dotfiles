@@ -87,8 +87,7 @@ export PATH=$HOME/.cargo/bin:/usr/local/opt/:/usr/local/bin:/usr/bin:/bin:/usr/s
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
+export PATH="$(pyenv root)/shims:$PATH"
 eval "$(pyenv init -)"
 
 export PATH="/opt/chefdk/bin:$PATH"
@@ -106,15 +105,12 @@ eval "$(goenv init -)"
 
 [ -f /Users/dant/.travis/travis.sh ] && source /Users/dant/.travis/travis.sh
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/usr/local/Caskroom/google-cloud-sdk/path.zsh.inc' ]; then source '/usr/local/Caskroom/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/usr/local/Caskroom/google-cloud-sdk/completion.zsh.inc' ]; then source '/usr/local/Caskroom/google-cloud-sdk/completion.zsh.inc'; fi
-
 
 ########################
 # Local Customizations #
 ########################
 
 test -f "${HOME}/.zshrc.local" && source "${HOME}/.zshrc.local"
+
+source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
