@@ -1,0 +1,21 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"Dockerfile Syntax Highlighting",
+		"Git",
+		"Git blame",
+		"JSON Reindent",
+		"nginx",
+		"Package Control",
+		"SublimeLinter",
+		"SublimeLinter-flake8",
+		"SummitLinter",
+		"Terrafmt",
+		"Terraform",
+		"TOML"
+	],
+}

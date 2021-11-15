@@ -1,0 +1,97 @@
+{
+	"added_words":
+	[
+		"deserialize",
+		"Braintree",
+		"Terraform",
+		"internet",
+		"sportsbook",
+		"kinesis",
+		"dockerized",
+		"postgres",
+		"terraform",
+		"metadata",
+		"base64",
+		"Whitehat",
+		"whitehat"
+	],
+	"close_windows_when_empty": false,
+	"color_scheme": "Packages/Color Scheme - Default/Monokai.sublime-color-scheme",
+	"ensure_newline_at_eof_on_save": true,
+	"fallback_encoding": "utf-8",
+	"file_exclude_patterns":
+	[
+		"*.a",
+		"*.class",
+		"*.db",
+		"*.dll",
+		"*.dylib",
+		"*.exe",
+		"*.idb",
+		"*.log",
+		"*.ncb",
+		"*.o",
+		"*.obj",
+		"*.pdb",
+		"*.png",
+		"*.psd",
+		"*.pyo",
+		"*.sdf",
+		"*.so",
+		"*.sublime-*",
+		"*.suo",
+		".DS_Store",
+		"*.pyc",
+		".Python",
+		"celerybeat?schedule",
+		".setup_test_db"
+	],
+	"folder_exclude_patterns":
+	[
+		".idea",
+		".kitchen",
+		".vagrant",
+		"venv",
+		"env",
+		"*.egg*",
+		".git",
+		".hg",
+		".svn",
+		"CVS",
+		"dev_puppet",
+		"doc/doctrees",
+		"doc/source/_static",
+		"doc/source/_templates",
+		"html",
+		"include",
+		"man",
+		"share",
+		".tox",
+		"__pycache__",
+		".terraform"
+	],
+	"font_face": "Inconsolata",
+	"font_size": 22,
+	"ignored_packages":
+	[
+		"RestructuredText",
+		"Vintage",
+	],
+	"ignored_words":
+	[
+		"cryptocurrencies",
+		"cryptocurrency",
+		"provisioners"
+	],
+	"rulers":
+	[
+		79
+	],
+	"scroll_past_end": true,
+	"shift_tab_unindent": true,
+	"theme": "Adaptive.sublime-theme",
+	"translate_tabs_to_spaces": true,
+	"trim_automatic_white_space": true,
+	"trim_trailing_white_space_on_save": true,
+	"word_wrap": false,
+}

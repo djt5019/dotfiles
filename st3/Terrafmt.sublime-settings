@@ -1,0 +1,4 @@
+// Any settings in this file overrides the default ones
+{
+    "format_on_save": false
+}
