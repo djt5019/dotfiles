@@ -5,7 +5,7 @@ export GOPATH="$HOME/go"
 export GOBIN="$HOME/go/bin"
 export GOENV_ROOT="${HOME}/.goenv"
 
-plugins=(git golang docker docker-compose brew terraform)
+plugins=(git golang docker docker-compose brew terraform asdf)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -81,9 +81,9 @@ export FPATH="$FPATH:/opt/local/share/zsh/site-functions/"
 ######################
 
 path_array=(
-  "$(pyenv root)/shims:$PATH"
-  "$HOME/.rbenv/bin:$PATH"
-  "${HOME}/.goenv/bin:$PATH"
+  "$(pyenv root)/shims"
+  "$HOME/.rbenv/bin"
+  "${HOME}/.goenv/bin"
   "$HOME/.cargo/bin"
   "/usr/local/opt/"
   "/usr/local/bin"
@@ -95,6 +95,7 @@ path_array=(
 )
 
 export PATH=$(perl -le 'print join ":",@ARGV' "${path_array[@]}")
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 
 #######################
