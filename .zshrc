@@ -1,7 +1,6 @@
 ZSH=$HOME/.oh-my-zsh
 
 export EDITOR=vim
-export CPPFLAGS='-L/usr/local/lib -I/usr/local/include'
 export GOPATH="$HOME/go"
 export GOBIN="$HOME/go/bin"
 export GOENV_ROOT="${HOME}/.goenv"
@@ -25,7 +24,6 @@ __git_files () {
 # Aliases #
 ###########
 
-alias 'be'='chef exec'
 alias 'dater'='date -r "$(date +%s)" +"%a, %b %d %Y %T %z"'
 
 ####################
@@ -82,29 +80,37 @@ export FPATH="$FPATH:/opt/local/share/zsh/site-functions/"
 # Path Manipulation  #
 ######################
 
-export PATH=$HOME/.cargo/bin:/usr/local/opt/:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
+path_array=(
+  "$(pyenv root)/shims:$PATH"
+  "$HOME/.rbenv/bin:$PATH"
+  "${HOME}/.goenv/bin:$PATH"
+  "$HOME/.cargo/bin"
+  "/usr/local/opt/"
+  "/usr/local/bin"
+  "/usr/bin"
+  "/bin"
+  "/usr/sbin"
+  "/sbin"
+  "/usr/X11/bin"
+)
 
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
-
-export PATH="$(pyenv root)/shims:$PATH"
-eval "$(pyenv init -)"
-
-export PATH="/opt/chefdk/bin:$PATH"
-export PATH="/opt/git-plugins:$PATH"
-
-export PATH="${HOME}/.goenv/bin:$PATH"
-eval "$(goenv init -)"
+export PATH=$(perl -le 'print join ":",@ARGV' "${path_array[@]}")
 
 
 #######################
 # Source Some Helpers #
 #######################
 
+command -v rbenv > /dev/null && eval "$(rbenv init -)"
+command -v pyenv > /dev/null && eval "$(pyenv init -)"
+command -v goenv > /dev/null && eval "$(goenv init -)"
+
 [[ -s `brew --prefix`/etc/autojump.sh ]] && . `brew --prefix`/etc/autojump.sh
 
-[ -f /Users/dant/.travis/travis.sh ] && source /Users/dant/.travis/travis.sh
-
+if [[ -d  "$(brew --prefix)/Caskroom/google-cloud-sdk/" ]]; then
+  source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+  source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+fi
 
 ########################
 # Local Customizations #
@@ -112,5 +118,3 @@ eval "$(goenv init -)"
 
 test -f "${HOME}/.zshrc.local" && source "${HOME}/.zshrc.local"
 
-source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
-source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
