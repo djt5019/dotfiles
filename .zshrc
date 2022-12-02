@@ -4,7 +4,7 @@ export EDITOR=vim
 # ZSH Settings #
 ################
 ZSH=$HOME/.oh-my-zsh
-plugins=(git golang docker brew terraform asdf)
+plugins=(git golang docker brew terraform)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -77,9 +77,7 @@ export FPATH="$FPATH:/opt/local/share/zsh/site-functions/"
 
 path_array=(
   "$HOME/.pyenv/shims"
-  "$HOME/.rbenv/bin"
-  "$HOME/.goenv/bin"
-  "$HOME/.cargo/bin"
+  "$HOME/.asdf/shims"
   "/usr/local/opt/"
   "/usr/local/bin"
   "/usr/bin"
@@ -100,7 +98,6 @@ export CARGO_HOME="${HOME}/.cargo/bin"
 export GOPATH="$HOME/go"
 export GOBIN="$HOME/go/bin"
 export GOENV_ROOT="${HOME}/.goenv"
-export ASDF_DIR=$(/opt/homebrew/bin/brew --prefix asdf)
 export VIRTUAL_ENV_DISABLE_PROMPT=0
 
 #######################
@@ -116,11 +113,6 @@ if [[ -d  "$(brew --prefix)/Caskroom/google-cloud-sdk/" ]]; then
   source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
   source "$(brew --prefix)/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
 fi
-
-if [[ ! -z $(brew --prefix asdf)/libexec/asdf.sh ]]; then
-  source $(brew --prefix asdf)/libexec/asdf.sh
-fi
-
 
 ########################
 # Local Customizations #
